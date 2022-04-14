@@ -1,6 +1,8 @@
 package web
 
 import (
+	"baldeweg/mission/export/html"
+	"baldeweg/mission/filetypes"
 	"baldeweg/mission/storage"
 	"context"
 	"encoding/json"
@@ -32,6 +34,7 @@ type Msg struct {
 func Web() {
     http.HandleFunc("/api/show", makeHandler(showHandler, "GET"))
     http.HandleFunc("/api/update", makeHandler(updateHandler, "PUT"))
+    http.HandleFunc("/api/export/html", makeHandler(htmlExportHandler, "GET"))
 
     log.Fatal(http.ListenAndServe(":8080", nil))
 }
@@ -64,6 +67,11 @@ func updateHandler(w http.ResponseWriter, r *http.Request) {
     storage.Write(file.Name, file.Body)
 
     c := string(marshalJson(Msg{Msg: "SUCCESS"}))
+    io.WriteString(w, c)
+}
+
+func htmlExportHandler(w http.ResponseWriter, r *http.Request) {
+    c := string(marshalJson(filetypes.Export{Type: "html", Body: html.Export()}))
     io.WriteString(w, c)
 }
 
