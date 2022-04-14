@@ -74,7 +74,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request), method string) htt
             return
         }
 
-        w.Header().Set("Access-Control-Allow-Origin", os.Getenv("CORS_ALLOW_ORIGIN"))
+        w.Header().Set("Access-Control-Allow-Origin", getOrigin(r.Header.Get("Origin")))
         w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
         w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
         w.Header().Set("Content-Type", "application/json")
@@ -140,4 +140,24 @@ func marshalJson(data interface{}) []byte {
     }
 
     return d
+}
+
+func getOrigin(origin string) string {
+    hosts := strings.Split(os.Getenv("CORS_ALLOW_ORIGIN"), ",")
+
+    if inSlice(origin, hosts) {
+        return origin
+    }
+
+    return "null"
+}
+
+func inSlice(origin string, list []string) bool {
+    for _, item := range list {
+        if item == origin {
+            return true
+        }
+    }
+
+    return false
 }
