@@ -1,10 +1,11 @@
 package create
 
 import (
-	"github.com/abaldeweg/storage/storage"
 	"encoding/json"
 	"log"
 	"time"
+
+	"github.com/abaldeweg/storage/storage"
 )
 
 type Logfile struct {
@@ -21,6 +22,7 @@ type Mission struct {
     Unit string `json:"unit"`
     Location string `json:"location"`
     Links []string `json:"links"`
+    Private bool `json:"private"`
 }
 
 func init() {

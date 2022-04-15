@@ -1,13 +1,14 @@
 package html
 
 import (
-	"github.com/abaldeweg/storage/mission/create"
-	"github.com/abaldeweg/storage/storage"
 	"bytes"
 	"encoding/json"
 	"html/template"
 	"log"
 	"time"
+
+	"github.com/abaldeweg/storage/mission/create"
+	"github.com/abaldeweg/storage/storage"
 )
 
 type Response struct {
@@ -19,7 +20,9 @@ var filename = "missions.json"
 
 const tpl = `<ul>
     {{- range .Missions -}}
+    {{- if eq .Private false -}}
     <li>{{ formatDate .Date }} {{ getUnit .Unit }}: {{ .Situation }}, {{ .Location }}</li>
+    {{- end -}}
     {{- end -}}
 </ul>`
 
