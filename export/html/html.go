@@ -25,7 +25,7 @@ func init() {
 
 var file = storage.Read
 
-func Export() string {
+func Export() filetypes.Export {
     var b bytes.Buffer
     storage := unmarshalJson(file(filename))
 
@@ -41,7 +41,7 @@ func Export() string {
         log.Fatal(err)
     }
 
-    return b.String()
+    return filetypes.Export{Type: "html", Body: b.String()}
 }
 
 func formatDate(val string) string {

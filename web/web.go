@@ -100,7 +100,7 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func htmlExportHandler(w http.ResponseWriter, r *http.Request) {
-    c := string(marshalJson(filetypes.Export{Type: "html", Body: html.Export()}))
+    c := string(marshalJson(html.Export()))
     io.WriteString(w, c)
 }
 
