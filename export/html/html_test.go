@@ -22,7 +22,7 @@ func TestConfig(t *testing.T) {
     }
 
 	export := Export()
-    if reflect.TypeOf(export).String() != "string" {
-        t.Fatalf("%s is not type of %s", reflect.TypeOf(export),  "string")
+    if reflect.TypeOf(export).String() != "html.Response" {
+        t.Fatalf("%s is not type of %s", reflect.TypeOf(export),  "html.Response")
     }
 }
