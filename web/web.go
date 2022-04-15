@@ -2,7 +2,7 @@ package web
 
 import (
 	"baldeweg/mission/export/html"
-	"baldeweg/mission/filetypes"
+	"baldeweg/mission/mission/create"
 	"baldeweg/mission/storage"
 	"context"
 	"encoding/json"
@@ -12,7 +12,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
@@ -73,27 +72,7 @@ func updateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func createHandler(w http.ResponseWriter, r *http.Request) {
-    filename := "missions.json"
-
-    create := filetypes.Mission{
-        Date: time.Now().Format("2006-01-02"),
-        Time: time.Now().Format("15:04"),
-    }
-
-    var t filetypes.Logfile
-	if err := json.Unmarshal([]byte(string(storage.Read(filename))), &t); err != nil {
-		log.Fatal(err)
-	}
-
-    t.Missions = append(t.Missions, create)
-
-
-    d, err := json.Marshal(&t)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    storage.Write(filename, string(d))
+    create.Create()
 
     c := string(marshalJson(Msg{Msg: "SUCCESS"}))
     io.WriteString(w, c)
