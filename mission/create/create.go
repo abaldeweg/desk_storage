@@ -1,7 +1,7 @@
 package create
 
 import (
-	"baldeweg/mission/storage"
+	"github.com/abaldeweg/storage/storage"
 	"encoding/json"
 	"log"
 	"time"

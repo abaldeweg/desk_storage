@@ -1,8 +1,8 @@
 package html
 
 import (
-	"baldeweg/mission/mission/create"
-	"baldeweg/mission/storage"
+	"github.com/abaldeweg/storage/mission/create"
+	"github.com/abaldeweg/storage/storage"
 	"bytes"
 	"encoding/json"
 	"html/template"

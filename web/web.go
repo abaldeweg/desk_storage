@@ -1,9 +1,9 @@
 package web
 
 import (
-	"baldeweg/mission/export/html"
-	"baldeweg/mission/mission/create"
-	"baldeweg/mission/storage"
+	"github.com/abaldeweg/storage/export/html"
+	"github.com/abaldeweg/storage/mission/create"
+	"github.com/abaldeweg/storage/storage"
 	"context"
 	"encoding/json"
 	"io"

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"baldeweg/mission/web"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/abaldeweg/storage/web"
 	"github.com/joho/godotenv"
 )
 

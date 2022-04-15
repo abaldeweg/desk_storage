@@ -1,8 +1,8 @@
 package storage
 
 import (
-	"baldeweg/mission/storage/file"
-	"baldeweg/mission/storage/gcpBucket"
+	"github.com/abaldeweg/storage/storage/file"
+	"github.com/abaldeweg/storage/storage/gcpBucket"
 	"log"
 	"os"
 )

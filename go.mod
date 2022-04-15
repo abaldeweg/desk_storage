@@ -1,4 +1,4 @@
-module baldeweg/mission
+module github.com/abaldeweg/storage
 
 go 1.17
 

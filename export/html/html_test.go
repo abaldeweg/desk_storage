@@ -1,10 +1,11 @@
 package html
 
 import (
-	"baldeweg/mission/mission/create"
 	"encoding/json"
 	"reflect"
 	"testing"
+
+	"github.com/abaldeweg/storage/mission/create"
 )
 
 func TestConfig(t *testing.T) {
