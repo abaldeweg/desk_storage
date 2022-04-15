@@ -1,7 +1,7 @@
 package html
 
 import (
-	"baldeweg/mission/filetypes"
+	"baldeweg/mission/mission/create"
 	"baldeweg/mission/storage"
 	"bytes"
 	"encoding/json"
@@ -9,6 +9,11 @@ import (
 	"log"
 	"time"
 )
+
+type Response struct {
+    Type string `json:"type"`
+    Body string `json:"body"`
+}
 
 var filename = "missions.json"
 
@@ -25,7 +30,7 @@ func init() {
 
 var file = storage.Read
 
-func Export() filetypes.Export {
+func Export() Response {
     var b bytes.Buffer
     storage := unmarshalJson(file(filename))
 
@@ -41,7 +46,7 @@ func Export() filetypes.Export {
         log.Fatal(err)
     }
 
-    return filetypes.Export{Type: "html", Body: b.String()}
+    return Response{Type: "html", Body: b.String()}
 }
 
 func formatDate(val string) string {
@@ -59,8 +64,8 @@ func getUnit(val string) string {
     return missions.Replacements[val]
 }
 
-func unmarshalJson(blob []byte) filetypes.Logfile {
-    var d filetypes.Logfile
+func unmarshalJson(blob []byte) create.Logfile {
+    var d create.Logfile
 	if err := json.Unmarshal([]byte(blob), &d); err != nil {
 		log.Fatal(err)
 	}

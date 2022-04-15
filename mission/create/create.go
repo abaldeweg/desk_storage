@@ -1,12 +1,27 @@
 package create
 
 import (
-	"baldeweg/mission/filetypes"
 	"baldeweg/mission/storage"
 	"encoding/json"
 	"log"
 	"time"
 )
+
+type Logfile struct {
+    Notes []string `json:"notes"`
+    Replacements map[string]string `json:"replacements"`
+    Missions []Mission `json:"missions"`
+}
+
+type Mission struct {
+    Date string `json:"date"`
+    Time string `json:"time"`
+    Keyword string `json:"keyword"`
+    Situation string `json:"situation"`
+    Unit string `json:"unit"`
+    Location string `json:"location"`
+    Links []string `json:"links"`
+}
 
 func init() {
     log.SetPrefix("create: ")
@@ -16,12 +31,12 @@ func init() {
 func Create(){
     filename := "missions.json"
 
-    create := filetypes.Mission{
+    create := Mission{
         Date: time.Now().Format("2006-01-02"),
         Time: time.Now().Format("15:04"),
     }
 
-    var t filetypes.Logfile
+    var t Logfile
 	if err := json.Unmarshal([]byte(string(storage.Read(filename))), &t); err != nil {
 		log.Fatal(err)
 	}

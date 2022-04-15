@@ -1,7 +1,7 @@
 package html
 
 import (
-	"baldeweg/mission/filetypes"
+	"baldeweg/mission/mission/create"
 	"encoding/json"
 	"reflect"
 	"testing"
@@ -12,7 +12,7 @@ func TestConfig(t *testing.T) {
     defer func() { file = old }()
 
     file = func(string) []byte {
-        d, err := json.Marshal(filetypes.Logfile{Missions: []filetypes.Mission{}})
+        d, err := json.Marshal(create.Logfile{Missions: []create.Mission{}})
         if err != nil {
             t.Fatal(err)
         }
