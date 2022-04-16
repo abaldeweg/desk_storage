@@ -4,20 +4,68 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
-	firebase "firebase.google.com/go"
-	"firebase.google.com/go/auth"
+	firebase "firebase.google.com/go/v4"
+	"firebase.google.com/go/v4/auth"
 )
 
 type File struct {
     Body string `json:"body"`
 }
 
+type Msg struct {
+    Msg string `json:"msg"`
+}
+
 func init() {
-    log.SetPrefix("web: ")
+    log.SetPrefix("controller: ")
     log.SetFlags(0)
+}
+
+func MakeHandler(fn func(http.ResponseWriter, *http.Request), method string) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        if r.Method != method && r.Method != "OPTIONS" {
+            http.NotFound(w, r)
+            return
+        }
+
+        w.Header().Set("Access-Control-Allow-Origin", getOrigin(r.Header.Get("Origin")))
+        w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+        w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
+        w.Header().Set("Content-Type", "application/json")
+
+        if r.Method == "OPTIONS" {
+            return
+        }
+
+        if !isAuthenticated(r.Header.Get("Authorization")) {
+            w.WriteHeader(401)
+            return
+        }
+
+        fn(w, r)
+    }
+}
+
+func UnmarshalJson(blob string) File {
+    var d File
+	if err := json.Unmarshal([]byte(blob), &d); err != nil {
+		log.Fatal(err)
+	}
+
+    return d
+}
+
+func MarshalJson(data interface{}) []byte {
+	d, err := json.Marshal(&data)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    return d
 }
 
 func isAuthenticated(auth string) bool {
@@ -50,24 +98,6 @@ func checkToken(idToken string) (*auth.Token, error) {
     }
 
     return token, nil
-}
-
-func unmarshalJson(blob string) File {
-    var d File
-	if err := json.Unmarshal([]byte(blob), &d); err != nil {
-		log.Fatal(err)
-	}
-
-    return d
-}
-
-func marshalJson(data interface{}) []byte {
-	d, err := json.Marshal(&data)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    return d
 }
 
 func getOrigin(origin string) string {
