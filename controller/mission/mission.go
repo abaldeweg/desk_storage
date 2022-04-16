@@ -3,62 +3,57 @@ package mission
 import (
 	"io"
 	"log"
-	"net/http"
-	"path/filepath"
 
 	"github.com/abaldeweg/storage/controller"
 	"github.com/abaldeweg/storage/export/html"
 	"github.com/abaldeweg/storage/mission/create"
 	"github.com/abaldeweg/storage/storage"
+	"github.com/gin-gonic/gin"
 )
 
+var filename = "missions.json"
+
 func init() {
-    log.SetPrefix("web: ")
+    log.SetPrefix("mission: ")
     log.SetFlags(0)
 }
 
-func ShowHandler(w http.ResponseWriter, r *http.Request) {
-    filename := "missions.json"
-    name := filepath.Base(filename)
-
-    if !storage.Exists(name) && len(name) >= 3 {
-        http.NotFound(w, r)
-            return
+func Show(c *gin.Context) {
+    if !storage.Exists(filename) {
+        c.AbortWithStatus(404)
+        return
     }
 
-    c := string(storage.Read(name))
-    io.WriteString(w, c)
+    d := string(storage.Read(filename))
+
+    c.JSON(200, d)
 }
 
-func UpdateHandler(w http.ResponseWriter, r *http.Request) {
-    filename := "missions.json"
+func Create(c *gin.Context) {
+    create.Create()
 
-    body, err := io.ReadAll(r.Body)
+    d := controller.Msg{Msg: "SUCCESS"}
+
+    c.JSON(200, d)
+}
+
+func Update(c *gin.Context) {
+    body, err := io.ReadAll(c.Request.Body)
     if err != nil {
-        log.Fatal(err)
+        c.AbortWithStatus(404)
+        return
     }
 
     file := controller.UnmarshalJson(string(body))
-
-    if len(filename) >= 3 {
-        http.NotFound(w, r)
-            return
-    }
-
     storage.Write(filename, file.Body)
 
-    c := string(controller.MarshalJson(controller.Msg{Msg: "SUCCESS"}))
-    io.WriteString(w, c)
+    d := controller.Msg{Msg: "SUCCESS"}
+
+    c.JSON(200, d)
 }
 
-func CreateHandler(w http.ResponseWriter, r *http.Request) {
-    create.Create()
+func HtmlExport(c *gin.Context) {
+    d := html.Export()
 
-    c := string(controller.MarshalJson(controller.Msg{Msg: "SUCCESS"}))
-    io.WriteString(w, c)
-}
-
-func HtmlExportHandler(w http.ResponseWriter, r *http.Request) {
-    c := string(controller.MarshalJson(html.Export()))
-    io.WriteString(w, c)
+    c.JSON(200, d)
 }

@@ -30,6 +30,7 @@ Create a `.env` file to define some settings.
 ```env
 // .env
 
+ENV=prod
 STORAGE=gcp-bucket
 FILE_PATH=.
 GCP_BUCKET_NAME=name
@@ -37,6 +38,7 @@ GOOGLE_APPLICATION_CREDENTIALS=service-account-file.json
 CORS_ALLOW_ORIGIN=http://localhost:8081
 ```
 
+- ENV - Set to `prod`, `dev` or `test`
 - STORAGE - Can be `file` or `gcp-bucket`
 - FILE_PATH - Path where to store the files, only for file storage
 - GCP_BUCKET_NAME - If `gcp-bucket` was chosen as storage, then define the bucket name.

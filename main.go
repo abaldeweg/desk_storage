@@ -5,7 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/abaldeweg/storage/web"
+	"github.com/abaldeweg/storage/router"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -21,7 +22,24 @@ func main() {
         }
     }
 
+    gin.SetMode(getGinMode())
+
     fmt.Println("baldeweg/storage <https://github.com/abaldeweg/storage>")
 
-    web.Web()
+    router.Router()
+}
+
+func getGinMode() string {
+    mode := os.Getenv("ENV")
+
+    switch mode {
+    case "prod":
+        return gin.ReleaseMode
+    case "dev":
+        return gin.DebugMode
+    case "test":
+        return gin.TestMode
+    default:
+        return gin.DebugMode
+    }
 }

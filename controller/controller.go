@@ -10,6 +10,8 @@ import (
 
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 type File struct {
@@ -25,28 +27,19 @@ func init() {
     log.SetFlags(0)
 }
 
-func MakeHandler(fn func(http.ResponseWriter, *http.Request), method string) http.HandlerFunc {
-    return func(w http.ResponseWriter, r *http.Request) {
-        if r.Method != method && r.Method != "OPTIONS" {
-            http.NotFound(w, r)
-            return
-        }
+func Cors() gin.HandlerFunc {
+    return cors.New(cors.Config{
+        AllowOrigins: strings.Split(os.Getenv("CORS_ALLOW_ORIGIN"), ","),
+        AllowMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+        AllowHeaders: []string{"Origin", "Authorization", "Content-Type"},
+        ExposeHeaders: []string{"Content-Length"},
+    })
+}
 
-        w.Header().Set("Access-Control-Allow-Origin", getOrigin(r.Header.Get("Origin")))
-        w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-        w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
-        w.Header().Set("Content-Type", "application/json")
-
-        if r.Method == "OPTIONS" {
-            return
-        }
-
-        if !isAuthenticated(r.Header.Get("Authorization")) {
-            w.WriteHeader(401)
-            return
-        }
-
-        fn(w, r)
+func Auth(c *gin.Context) {
+    if !isAuthenticated(c.GetHeader("Authorization")) {
+        c.AbortWithStatus(http.StatusUnauthorized)
+        return
     }
 }
 
@@ -98,24 +91,4 @@ func checkToken(idToken string) (*auth.Token, error) {
     }
 
     return token, nil
-}
-
-func getOrigin(origin string) string {
-    hosts := strings.Split(os.Getenv("CORS_ALLOW_ORIGIN"), ",")
-
-    if inSlice(origin, hosts) {
-        return origin
-    }
-
-    return "null"
-}
-
-func inSlice(origin string, list []string) bool {
-    for _, item := range list {
-        if item == origin {
-            return true
-        }
-    }
-
-    return false
 }
