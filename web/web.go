@@ -24,7 +24,6 @@ func init() {
 }
 
 type File struct {
-    Name string `json:"name"`
     Body string `json:"body"`
 }
 
@@ -42,7 +41,8 @@ func Web() {
 }
 
 func showHandler(w http.ResponseWriter, r *http.Request) {
-    name := filepath.Base(r.URL.Query().Get("name"))
+    filename := "missions.json"
+    name := filepath.Base(filename)
 
     if !storage.Exists(name) && len(name) >= 3 {
         http.NotFound(w, r)
@@ -54,6 +54,8 @@ func showHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateHandler(w http.ResponseWriter, r *http.Request) {
+    filename := "missions.json"
+
     body, err := io.ReadAll(r.Body)
     if err != nil {
         log.Fatal(err)
@@ -61,12 +63,12 @@ func updateHandler(w http.ResponseWriter, r *http.Request) {
 
     file := unmarshalJson(string(body))
 
-    if len(file.Name) >= 3 {
+    if len(filename) >= 3 {
         http.NotFound(w, r)
             return
     }
 
-    storage.Write(file.Name, file.Body)
+    storage.Write(filename, file.Body)
 
     c := string(marshalJson(Msg{Msg: "SUCCESS"}))
     io.WriteString(w, c)
