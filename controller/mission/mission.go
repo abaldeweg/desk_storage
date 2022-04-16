@@ -1,7 +1,6 @@
 package mission
 
 import (
-	"io"
 	"log"
 
 	"github.com/abaldeweg/storage/controller"
@@ -38,13 +37,12 @@ func Create(c *gin.Context) {
 }
 
 func Update(c *gin.Context) {
-    body, err := io.ReadAll(c.Request.Body)
-    if err != nil {
+    var file html.Response
+    if err := c.ShouldBind(&file); err != nil {
         c.AbortWithStatus(404)
         return
     }
 
-    file := controller.UnmarshalJson(string(body))
     storage.Write(filename, file.Body)
 
     d := controller.Msg{Msg: "SUCCESS"}
