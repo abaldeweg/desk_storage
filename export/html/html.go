@@ -13,7 +13,7 @@ import (
 
 type Response struct {
     Type string `json:"type"`
-    Body string `json:"body"`
+    Body string `json:"body" binding:"required"`
 }
 
 var filename = "missions.json"
