@@ -1,4 +1,4 @@
-FROM golang:1.17
+FROM golang:1.18
 
 WORKDIR /usr/src/app
 
@@ -10,4 +10,4 @@ RUN go build -v -o /usr/local/bin ./...
 
 EXPOSE 8080
 
-CMD ["mission"]
+CMD ["desk_storage"]
