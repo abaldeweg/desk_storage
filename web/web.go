@@ -14,10 +14,13 @@ func init() {
 }
 
 func Web() {
-    http.HandleFunc("/api/show", controller.MakeHandler(mission.ShowHandler, "GET"))
-    http.HandleFunc("/api/update", controller.MakeHandler(mission.UpdateHandler, "PUT"))
-    http.HandleFunc("/api/create", controller.MakeHandler(mission.CreateHandler, "POST"))
-    http.HandleFunc("/api/export/html", controller.MakeHandler(mission.HtmlExportHandler, "GET"))
+    // mission
+    http.HandleFunc("/api/mission/show", controller.MakeHandler(mission.ShowHandler, "GET"))
+    http.HandleFunc("/api/mission/update", controller.MakeHandler(mission.UpdateHandler, "PUT"))
+    http.HandleFunc("/api/mission/create", controller.MakeHandler(mission.CreateHandler, "POST"))
+    http.HandleFunc("/api/mission/export/html", controller.MakeHandler(mission.HtmlExportHandler, "GET"))
+
+    //  shift
 
     log.Fatal(http.ListenAndServe(":8080", nil))
 }
