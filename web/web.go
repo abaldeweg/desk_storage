@@ -1,9 +1,6 @@
 package web
 
 import (
-	"github.com/abaldeweg/storage/export/html"
-	"github.com/abaldeweg/storage/mission/create"
-	"github.com/abaldeweg/storage/storage"
 	"context"
 	"encoding/json"
 	"io"
@@ -12,6 +9,10 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/abaldeweg/storage/export/html"
+	"github.com/abaldeweg/storage/mission/create"
+	"github.com/abaldeweg/storage/storage"
 
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
@@ -60,7 +61,7 @@ func updateHandler(w http.ResponseWriter, r *http.Request) {
 
     file := unmarshalJson(string(body))
 
-    if !storage.Exists(file.Name) && len(file.Name) >= 3 {
+    if len(file.Name) >= 3 {
         http.NotFound(w, r)
             return
     }
