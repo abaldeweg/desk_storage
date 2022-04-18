@@ -38,7 +38,7 @@ func Router() {
 	auth.GET("/mission/export/html", mission.HtmlExport)
 
     // shift
-    auth.GET("/shift/show", shift.Show)
+    auth.GET("/shift/list", shift.List)
 
     // staff
     auth.GET("/staff/list", staff.List)

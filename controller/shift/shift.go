@@ -14,7 +14,7 @@ func init() {
     log.SetFlags(0)
 }
 
-func Show(c *gin.Context) {
+func List(c *gin.Context) {
     if !storage.Exists(filename) {
         c.AbortWithStatus(404)
         return
