@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var filename = "missions.json"
+var filename = "mission.json"
 
 func init() {
     log.SetPrefix("mission: ")
