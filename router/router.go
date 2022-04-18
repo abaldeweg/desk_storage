@@ -6,6 +6,9 @@ import (
 
 	"github.com/abaldeweg/storage/controller"
 	"github.com/abaldeweg/storage/controller/mission"
+	"github.com/abaldeweg/storage/controller/schedule"
+	"github.com/abaldeweg/storage/controller/shift"
+	"github.com/abaldeweg/storage/controller/staff"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,6 +38,13 @@ func Router() {
 	auth.GET("/mission/export/html", mission.HtmlExport)
 
     // shift
+    auth.GET("/shift/show", shift.Show)
+
+    // staff
+    auth.GET("/staff/list", staff.List)
+
+    // schedule
+    auth.GET("/schedule/show", schedule.Show)
 
 	r.Run(":8080")
 }

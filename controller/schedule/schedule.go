@@ -1,4 +1,4 @@
-package shift
+package schedule
 
 import (
 	"log"
@@ -7,10 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var filename = "shift.json"
+var filename = "schedule.json"
 
 func init() {
-    log.SetPrefix("shift: ")
+    log.SetPrefix("schedule: ")
     log.SetFlags(0)
 }
 

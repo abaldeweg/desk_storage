@@ -1,4 +1,4 @@
-package shift
+package staff
 
 import (
 	"log"
@@ -7,14 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var filename = "shift.json"
+var filename = "staff.json"
 
 func init() {
-    log.SetPrefix("shift: ")
+    log.SetPrefix("staff: ")
     log.SetFlags(0)
 }
 
-func Show(c *gin.Context) {
+func List(c *gin.Context) {
     if !storage.Exists(filename) {
         c.AbortWithStatus(404)
         return
