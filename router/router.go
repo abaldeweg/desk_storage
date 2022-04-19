@@ -45,6 +45,7 @@ func Router() {
 
     // schedule
     auth.GET("/schedule/show", schedule.Show)
+    auth.PUT("/schedule/update", schedule.Update)
 
 	r.Run(":8080")
 }
