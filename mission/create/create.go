@@ -31,7 +31,7 @@ func init() {
 }
 
 func Create(){
-    filename := "missions.json"
+    filename := "mission.json"
 
     create := Mission{
         Date: time.Now().Format("2006-01-02"),

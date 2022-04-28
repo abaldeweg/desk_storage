@@ -16,7 +16,7 @@ type Response struct {
     Body string `json:"body" binding:"required"`
 }
 
-var filename = "missions.json"
+var filename = "mission.json"
 
 const tpl = `<ul>
     {{- range .Missions -}}
