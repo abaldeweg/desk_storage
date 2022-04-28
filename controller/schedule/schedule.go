@@ -1,6 +1,7 @@
 package schedule
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/abaldeweg/storage/controller"
@@ -9,6 +10,12 @@ import (
 )
 
 var filename = "schedule.json"
+
+type Schedule struct {
+    Staff string `json:"staff"`
+    Starttime string `json:"starttime"`
+    Endtime string `json:"endtime"`
+}
 
 type Request struct {
     Body interface{} `json:"body"`
@@ -25,7 +32,11 @@ func Show(c *gin.Context) {
         return
     }
 
-    d := string(storage.Read(filename))
+    var d map[string][]Schedule
+    if err := json.Unmarshal(storage.Read(filename), &d); err!= nil {
+        c.AbortWithStatus(404)
+        return
+    }
 
     c.JSON(200, d)
 }

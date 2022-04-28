@@ -1,6 +1,7 @@
 package mission
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/abaldeweg/storage/controller"
@@ -23,7 +24,11 @@ func Show(c *gin.Context) {
         return
     }
 
-    d := string(storage.Read(filename))
+    var d create.Logfile
+    if err:= json.Unmarshal(storage.Read(filename), &d); err != nil {
+        c.AbortWithStatus(404)
+        return
+    }
 
     c.JSON(200, d)
 }

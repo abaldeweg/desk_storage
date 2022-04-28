@@ -43,9 +43,8 @@ func Auth(c *gin.Context) {
     }
 }
 
-func UnmarshalJson(blob string) File {
-    var d File
-	if err := json.Unmarshal([]byte(blob), &d); err != nil {
+func UnmarshalJson(blob []byte, d *[]interface{}) *[]interface{} {
+	if err := json.Unmarshal(blob, &d); err != nil {
 		log.Fatal(err)
 	}
 

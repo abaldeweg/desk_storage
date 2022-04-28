@@ -1,6 +1,7 @@
 package shift
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/abaldeweg/storage/storage"
@@ -8,6 +9,13 @@ import (
 )
 
 var filename = "shift.json"
+
+type Shift struct {
+    Name string `json:"name"`
+    Desc string `json:"desc"`
+    Start string `json:"start"`
+    End string `json:"end"`
+}
 
 func init() {
     log.SetPrefix("shift: ")
@@ -20,7 +28,11 @@ func List(c *gin.Context) {
         return
     }
 
-    d := string(storage.Read(filename))
+    var d []Shift
+    if err := json.Unmarshal(storage.Read(filename), &d); err != nil {
+        c.AbortWithStatus(404)
+        return
+    }
 
     c.JSON(200, d)
 }

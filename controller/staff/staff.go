@@ -1,6 +1,7 @@
 package staff
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/abaldeweg/storage/storage"
@@ -8,6 +9,12 @@ import (
 )
 
 var filename = "staff.json"
+
+type Staff struct {
+    Key int `json:"key"`
+    Phone int `json:"phone"`
+    Value string `json:"value"`
+}
 
 func init() {
     log.SetPrefix("staff: ")
@@ -20,7 +27,11 @@ func List(c *gin.Context) {
         return
     }
 
-    d := string(storage.Read(filename))
+    var d []Staff
+    if err := json.Unmarshal(storage.Read(filename), &d); err != nil {
+        c.AbortWithStatus(404)
+        return
+    }
 
     c.JSON(200, d)
 }
