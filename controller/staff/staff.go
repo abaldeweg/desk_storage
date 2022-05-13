@@ -12,7 +12,7 @@ var filename = "staff.json"
 
 type Staff struct {
     Key int `json:"key"`
-    Phone int `json:"phone"`
+    Phone string `json:"phone"`
     Value string `json:"value"`
 }
 

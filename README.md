@@ -36,6 +36,8 @@ FILE_PATH=.
 GCP_BUCKET_NAME=name
 GOOGLE_APPLICATION_CREDENTIALS=service-account-file.json
 CORS_ALLOW_ORIGIN=http://localhost:8081
+SIPGATE_TOKEN_NAME=
+SIPGATE_PAT=
 ```
 
 - ENV - Set to `prod`, `dev` or `test`
@@ -44,3 +46,5 @@ CORS_ALLOW_ORIGIN=http://localhost:8081
 - GCP_BUCKET_NAME - If `gcp-bucket` was chosen as storage, then define the bucket name.
 - GOOGLE_APPLICATION_CREDENTIALS - Key file, for auth and buckets
 - CORS_ALLOW_ORIGIN - Allowed origins
+- SIPGATE_TOKEN_NAME - Name of the token
+- SIPGATE_PAT - Personal Access Token

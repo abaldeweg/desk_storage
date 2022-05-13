@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/abaldeweg/storage/controller"
+	"github.com/abaldeweg/storage/controller/call"
 	"github.com/abaldeweg/storage/controller/mission"
 	"github.com/abaldeweg/storage/controller/schedule"
 	"github.com/abaldeweg/storage/controller/shift"
@@ -46,6 +47,10 @@ func Router() {
     // schedule
     auth.GET("/schedule/show", schedule.Show)
     auth.PUT("/schedule/update", schedule.Update)
+
+    // call
+    auth.PUT("/call/update", call.Update)
+    auth.PUT("/call/reset", call.Reset)
 
 	r.Run(":8080")
 }
