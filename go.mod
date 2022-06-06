@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/storage v1.22.1
 	firebase.google.com/go/v4 v4.8.0
 	github.com/gin-contrib/cors v1.3.1
-	github.com/gin-gonic/gin v1.8.0
+	github.com/gin-gonic/gin v1.8.1
 	github.com/joho/godotenv v1.4.0
 )
 
