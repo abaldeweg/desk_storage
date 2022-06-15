@@ -14,7 +14,7 @@ type Shift struct {
     Name string `json:"name"`
     Desc string `json:"desc"`
     Start string `json:"start"`
-    End string `json:"end"`
+    Duration int `json:"duration"`
 }
 
 func init() {

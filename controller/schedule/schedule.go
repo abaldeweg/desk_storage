@@ -13,8 +13,8 @@ var filename = "schedule.json"
 
 type Schedule struct {
     Staff string `json:"staff"`
-    Starttime string `json:"starttime"`
-    Endtime string `json:"endtime"`
+    Start int `json:"start"`
+    End int `json:"end"`
 }
 
 type Request struct {
@@ -32,8 +32,8 @@ func Show(c *gin.Context) {
         return
     }
 
-    var d map[string][]Schedule
-    if err := json.Unmarshal(storage.Read(filename), &d); err!= nil {
+    var d []Schedule
+    if err := json.Unmarshal(storage.Read(filename), &d); err != nil {
         c.AbortWithStatus(404)
         return
     }
