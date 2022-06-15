@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -26,37 +27,43 @@ func init() {
     log.SetFlags(0)
 }
 
-func Update(c *gin.Context) {
-    var file Forwarding
-    if err := c.ShouldBind(&file); err != nil {
-        c.AbortWithStatus(404)
-        return
-    }
-
-    request([]Forwarding{{file.Destination, 0, true}})
-
-    c.JSON(200, "UPDATED")
-}
-
-func Reset(c *gin.Context) {
-    request([]Forwarding{})
-
-    c.JSON(200, "RESET")
-}
-
-func request(forwardings []Forwarding) {
+func List(c *gin.Context) {
     url := "https://api.sipgate.com/v2/w0/phonelines/p0/forwardings"
 
-    data, err := json.Marshal(Forwardings{forwardings})
-    if err != nil {
-        log.Fatal(err)
-	}
-
-	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(data))
+    req, err := http.NewRequest("GET", url, bytes.NewBuffer(nil))
     if err != nil {
 		log.Fatal(err)
 	}
 
+    c.JSON(200, request(req))
+}
+
+func Update(c *gin.Context) {
+    url := "https://api.sipgate.com/v2/w0/phonelines/p0/forwardings"
+
+    var file Forwarding
+    forwarding := []Forwarding{}
+
+    if err := c.ShouldBind(&file); err == nil {
+        forwarding = []Forwarding{{file.Destination, 0, true}}
+    }
+
+    data, err := json.Marshal(Forwardings{forwarding})
+    if err != nil {
+        log.Fatal(err)
+	}
+
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(data))
+    if err != nil {
+		log.Fatal(err)
+	}
+
+    request(req)
+
+    c.JSON(200, "UPDATED")
+}
+
+func request(req *http.Request) string {
     token := []byte(os.Getenv("SIPGATE_TOKEN_NAME") + ":" + os.Getenv("SIPGATE_PAT"))
 
 	req.Header.Set("Authorization", "Basic " + base64.StdEncoding.EncodeToString(token))
@@ -68,5 +75,12 @@ func request(forwardings []Forwarding) {
 		log.Fatal(err)
 	}
 
-	res.Body.Close()
+	defer res.Body.Close()
+
+    body, err := io.ReadAll(res.Body)
+    if err != nil {
+		log.Fatal(err)
+	}
+
+    return string(body)
 }

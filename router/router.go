@@ -49,8 +49,8 @@ func Router() {
     auth.PUT("/schedule/update", schedule.Update)
 
     // call
+    auth.GET("/call/list", call.List)
     auth.PUT("/call/update", call.Update)
-    auth.PUT("/call/reset", call.Reset)
 
 	r.Run(":8080")
 }
