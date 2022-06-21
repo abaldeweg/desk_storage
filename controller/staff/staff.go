@@ -11,7 +11,7 @@ import (
 var filename = "staff.json"
 
 type Staff struct {
-    Key string `json:"key"`
+    Id string `json:"id"`
     Phone string `json:"phone"`
     Value string `json:"value"`
 }
