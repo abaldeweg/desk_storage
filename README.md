@@ -2,6 +2,8 @@
 
 Shift planer for on-call duty, that is able to set a phone number automatically as a forwarding destination.
 
+![Screenshot Planer](screenshot.jpg)
+
 ## Repositories
 
 - storage <https://github.com/abaldeweg/desk_storage> - Backend
