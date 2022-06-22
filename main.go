@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/abaldeweg/storage/controller/call"
 	"github.com/abaldeweg/storage/router"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -26,7 +27,18 @@ func main() {
 
     fmt.Println("baldeweg/storage <https://github.com/abaldeweg/storage>")
 
-    router.Router()
+    action := "web"
+    if len(os.Args) == 2 {
+        if os.Args[1] == "cron" {
+            action = "cron"
+        }
+    }
+
+    if action == "cron" {
+        call.Set()
+    } else {
+        router.Router()
+    }
 }
 
 func getGinMode() string {
