@@ -1,6 +1,6 @@
 # baldeweg/desk_storage
 
-An app to administer shifts, staff and more.
+Shift planer for on-call duty, that is able to set a phone number automatically as a forwarding destination.
 
 ## Repositories
 
@@ -9,7 +9,8 @@ An app to administer shifts, staff and more.
 
 ## Requirements
 
-- [Go](https://go.dev/)
+- Go 1.18
+- Docker
 
 ## Getting Started
 
@@ -23,7 +24,12 @@ Run the command `storage`. Depending on the OS you need to add a file extension.
 
 The app will create files where you can edit the staff and their shifts.
 
-## Storage
+## Arguments
+
+*none*  - Starts the webserver
+cron - Runs the cronjob and sets a phone number as the forwarding destination
+
+## Env vars
 
 Create a `.env` file to define some settings.
 
