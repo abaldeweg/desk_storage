@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"github.com/abaldeweg/storage/controller/call"
-	"github.com/abaldeweg/storage/controller/mission"
 	"github.com/abaldeweg/storage/controller/schedule"
 	"github.com/abaldeweg/storage/controller/shift"
 	"github.com/abaldeweg/storage/controller/staff"
@@ -24,12 +23,6 @@ func Router() {
     r.Use(headers())
 
     auth := r.Group("/api", checkAuth)
-
-    // mission
-	auth.GET("/mission/show", mission.Show)
-	auth.POST("/mission/create", mission.Create)
-	auth.PUT("/mission/update", mission.Update)
-	auth.GET("/mission/export/html", mission.HtmlExport)
 
     // shift
     auth.GET("/shift/list", shift.List)
