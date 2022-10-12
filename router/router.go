@@ -1,10 +1,8 @@
 package router
 
 import (
-	"log"
 	"os"
 
-	"github.com/abaldeweg/storage/controller"
 	"github.com/abaldeweg/storage/controller/call"
 	"github.com/abaldeweg/storage/controller/mission"
 	"github.com/abaldeweg/storage/controller/schedule"
@@ -12,11 +10,6 @@ import (
 	"github.com/abaldeweg/storage/controller/staff"
 	"github.com/gin-gonic/gin"
 )
-
-func init() {
-    log.SetPrefix("router: ")
-    log.SetFlags(0)
-}
 
 func Router() {
     r := gin.New()
@@ -28,9 +21,9 @@ func Router() {
 
 	r.Use(gin.Recovery())
 
-    r.Use(controller.Cors())
+    r.Use(headers())
 
-    auth := r.Group("/api", controller.Auth)
+    auth := r.Group("/api", checkAuth)
 
     // mission
 	auth.GET("/mission/show", mission.Show)
